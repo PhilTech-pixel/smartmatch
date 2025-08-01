@@ -3,6 +3,8 @@ import { db } from "../firebase";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { CSVLink } from "react-csv";
+import { FaDownload } from "react-icons/fa";
 
 export default function Applications() {
   const [applications, setApplications] = useState([]);
@@ -52,14 +54,36 @@ export default function Applications() {
     }
   };
 
+  // Prepare CSV data
+  const csvData = applications.map(app => ({
+    "Job Title": app.Application_Job_Title || "N/A",
+    "Applicant Name": app.Application_User_Name || "N/A",
+    "Applicant Email": app.Application_User_Email || "N/A",
+    "Cover Letter": app.Application_coverLetter || "N/A",
+    "Applied At": app.Application_appliedAt?.toDate?.()?.toLocaleString() || "N/A"
+  }));
+
   return (
     <div className="applications-container">
       <div className="applications-card">
-        <Link to="/approved" className="approved-apps-link">
-          <button className="approved-apps-button">
-            View Approved Applications
-          </button>
-        </Link>
+        <div className="header-actions">
+          <Link to="/approved" className="approved-apps-link">
+            <button className="approved-apps-button">
+              View Approved Applications
+            </button>
+          </Link>
+          
+          {applications.length > 0 && (
+            <CSVLink 
+              data={csvData} 
+              filename={"pending-applications.csv"}
+              className="download-button"
+            >
+              <FaDownload className="download-icon" />
+              Download Applications
+            </CSVLink>
+          )}
+        </div>
         
         <h2 className="applications-title">Pending Job Applications</h2>
         
@@ -123,9 +147,16 @@ export default function Applications() {
           max-width: 800px;
         }
         
-        .approved-apps-link {
-          display: block;
+        .header-actions {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
           margin-bottom: 1.5rem;
+          gap: 1rem;
+          flex-wrap: wrap;
+        }
+        
+        .approved-apps-link {
           text-decoration: none;
         }
         
@@ -142,6 +173,29 @@ export default function Applications() {
         
         .approved-apps-button:hover {
           background: #3e8e41;
+        }
+        
+        .download-button {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          background: #1976d2;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          padding: 0.75rem 1.5rem;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: background 0.2s;
+          text-decoration: none;
+        }
+        
+        .download-button:hover {
+          background: #1565c0;
+        }
+        
+        .download-icon {
+          font-size: 0.9rem;
         }
         
         .applications-title {

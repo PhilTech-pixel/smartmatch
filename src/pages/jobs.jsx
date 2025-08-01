@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { Link } from "react-router-dom";
-import { FaBriefcase, FaSearch, FaMapMarkerAlt, FaMoneyBillWave, FaClock } from "react-icons/fa";
-import "./JobListings.css"; // Import a separate CSS file
+import { FaBriefcase, FaSearch, FaMapMarkerAlt, FaMoneyBillWave, FaClock, FaDownload } from "react-icons/fa";
+import { CSVLink } from "react-csv";
+import "./JobListings.css";
 
 export default function JobListings() {
   const [jobs, setJobs] = useState([]);
@@ -16,7 +17,8 @@ export default function JobListings() {
         const querySnapshot = await getDocs(collection(db, "Jobs"));
         const jobsData = querySnapshot.docs.map((doc) => ({ 
           id: doc.id, 
-          ...doc.data() 
+          ...doc.data(),
+          createdAt: doc.data().createdAt?.toDate?.()?.toISOString() || new Date(doc.data().createdAt).toISOString()
         }));
         setJobs(jobsData);
         setLoading(false);
@@ -34,6 +36,17 @@ export default function JobListings() {
     (job.job_company && job.job_company.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
+  // Prepare CSV data
+  const csvData = filteredJobs.map(job => ({
+    "Job Title": job.job_title,
+    "Company": job.job_company,
+    "Location": job.job_location,
+    "Salary": job.job_salary,
+    "Type": job.job_type,
+    "Description": job.job_description,
+    "Posted Date": new Date(job.createdAt).toLocaleDateString()
+  }));
+
   if (loading) {
     return (
       <div className="loading-container">
@@ -45,9 +58,22 @@ export default function JobListings() {
 
   return (
     <div className="job-listings-container">
-      <Link to="/profile" className="profile-link">
-        <button className="profile-button">Profile</button>
-      </Link>
+      <div className="header-buttons">
+        <Link to="/profile" className="profile-link">
+          <button className="profile-button">Profile</button>
+        </Link>
+        
+        {filteredJobs.length > 0 && (
+          <CSVLink 
+            data={csvData} 
+            filename={"job-listings.csv"}
+            className="download-button"
+          >
+            <FaDownload className="download-icon" />
+            Download Jobs List
+          </CSVLink>
+        )}
+      </div>
      
       <div className="job-listings-header">
         <h1>

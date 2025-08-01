@@ -63,23 +63,23 @@ export default function PostJob() {
     try {
       if (editId) {
         await updateDoc(doc(db, "Jobs", editId), { 
-          title, 
-          description: desc,
-          company,
-          location,
-          salary,
-          type,
+          job_title: title, 
+          job_description: desc,
+          job_company: company,
+          job_location: location,
+          job_salary: salary,
+          job_type: type,
         });
         toast.success("Job updated successfully!");
         setEditId(null);
       } else {
         await addDoc(collection(db, "Jobs"), {
-          title,
-          description: desc,
-          company,
-          location,
-          salary,
-          type,
+          job_title: title, 
+          job_description: desc,
+          job_company: company,
+          job_location: location,
+          job_salary: salary,
+          job_type: type,
           createdAt: new Date(),
         });
         toast.success("Job posted successfully!");
@@ -101,12 +101,12 @@ export default function PostJob() {
   // --- EDIT JOB ---
   const handleEdit = (job) => {
     setEditId(job.id);
-    setTitle(job.title);
-    setDesc(job.description);
-    setCompany(job.company);
-    setLocation(job.location);
-    setSalary(job.salary);
-    setType(job.type);
+    setTitle(job.job_title);
+    setDesc(job.job_description);
+    setCompany(job.job_company);
+    setLocation(job.job_location);
+    setSalary(job.job_salary);
+    setType(job.job_type);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -239,6 +239,28 @@ export default function PostJob() {
               >
                 Applications
               </button>
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  navigate("/alljobs");
+                }}
+                style={{
+                  padding: "1rem 1.5rem",
+                  background: "none",
+                  border: "none",
+                  textAlign: "left",
+                  color: "#1976d2",
+                  fontWeight: 600,
+                  fontSize: "1.05rem",
+                  cursor: "pointer",
+                  borderBottom: "none",
+                  transition: "background 0.2s",
+                }}
+                onMouseOver={e => e.currentTarget.style.background = "#f1f5fb"}
+                onMouseOut={e => e.currentTarget.style.background = "none"}
+              >
+                View All Jobs
+              </button>
             </div>
           )}
         </div>
@@ -352,12 +374,12 @@ export default function PostJob() {
               {jobs.map((job) => (
                 <div key={job.id} className="job-card">
                   <div className="job-header">
-                    <h4 className="job-title">{job.title}</h4>
+                    <h4 className="job-title">{job.job_title}</h4>
                     <div className="job-date">
                       {new Date(job.createdAt?.seconds * 1000 || job.createdAt).toLocaleDateString()}
                     </div>
                   </div>
-                  <p className="job-description">{job.description}</p>
+                  <p className="job-description">{job.job_description}</p>
                   <div className="job-actions">
                     <button
                       onClick={() => handleEdit(job)}

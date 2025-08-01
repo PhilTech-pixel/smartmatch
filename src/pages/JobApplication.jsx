@@ -5,10 +5,10 @@ import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { toast } from "react-hot-toast";
 
 export default function JobApplication() {
-  const { jobId } = useParams();
+  const { Application_Job_Id } = useParams();
   const navigate = useNavigate();
   const [name, setName] = useState("");
-  const [coverLetter, setCoverLetter] = useState("");
+  const [Application_coverLetter, setCoverLetter] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,24 +20,24 @@ export default function JobApplication() {
     }
 
     try {
-      const jobDocRef = doc(db, "Jobs", jobId);
+      const jobDocRef = doc(db, "Jobs", Application_Job_Id);
       const jobDoc = await getDoc(jobDocRef);
       if (!jobDoc.exists()) {
         toast.error("Job not found!");
         return;
       }
-      const jobTitle = jobDoc.data().title;
+      const Application_Job_Title = jobDoc.data().title;
 
       await addDoc(collection(db, "Applications"), {
-        jobId,
-        jobTitle,
-        applicantId: user.uid,
-        applicantName: name,
-        applicantEmail: user.email,
-        coverLetter,
-        appliedAt: new Date(),
-        status: "pending",
-        approved: false,
+        Application_Job_Id,
+        Application_Job_Title,
+        Application_User_Id: user.uid,
+        Application_User_Name: name,
+        Application_User_Email: user.email,
+        Application_coverLetter,
+        Application_appliedAt: new Date(),
+        Application_status: "pending",
+        Application_approved: false,
       });
       toast.success("Application submitted successfully!");
       navigate("/approved");
@@ -100,7 +100,7 @@ export default function JobApplication() {
         />
         <textarea
           placeholder="Cover Letter"
-          value={coverLetter}
+          value={Application_coverLetter}
           onChange={(e) => setCoverLetter(e.target.value)}
           required
           style={{

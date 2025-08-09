@@ -62,26 +62,26 @@ export default function JobDetails() {
 
         <div className="job-header">
           <h1>{job.title}</h1>
-          <p className="company-name">{job.company || "Company not specified"}</p>
+          <p className="company-name">{job.job_company || "Company not specified"}</p>
         </div>
 
         <div className="job-meta">
           {job.location && (
             <div className="meta-item">
               <FaMapMarkerAlt className="meta-icon" />
-              <span>{job.location}</span>
+              <span>{job.job_location}</span>
             </div>
           )}
           {job.salary && (
             <div className="meta-item">
               <FaMoneyBillWave className="meta-icon" />
-              <span>{job.salary}</span>
+              <span>{job.job_salary}</span>
             </div>
           )}
           {job.type && (
             <div className="meta-item">
               <FaClock className="meta-icon" />
-              <span>{job.type}</span>
+              <span>{job.job_type}</span>
             </div>
           )}
         </div>
@@ -89,7 +89,7 @@ export default function JobDetails() {
         <div className="job-content">
           <div className="section">
             <h3>Job Description</h3>
-            <p>{job.description || "No description provided."}</p>
+            <p>{job.job_description || "No description provided."}</p>
           </div>
 
           {job.responsibilities && (

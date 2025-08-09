@@ -384,7 +384,7 @@ function Home() {
                       marginBottom: "0.5rem",
                     }}
                   >
-                    {job.title}
+                    {job.job_title}
                   </h3>
                   <p
                     style={{
@@ -393,7 +393,7 @@ function Home() {
                       marginBottom: "1rem",
                     }}
                   >
-                    {job.company}
+                    {job.job_company}
                   </p>
                   
                   <div
@@ -411,10 +411,10 @@ function Home() {
                     >
                       📍
                     </span>
-                    <span style={{ color: "#34495e" }}>{job.location}</span>
+                    <span style={{ color: "#34495e" }}>{job.job_location}</span>
                   </div>
                   
-                  {job.salary && (
+                  {job.job_salary && (
                     <div
                       style={{
                         display: "flex",
@@ -430,7 +430,7 @@ function Home() {
                       >
                         💰
                       </span>
-                      <span style={{ color: "#34495e" }}>{job.salary}</span>
+                      <span style={{ color: "#34495e" }}>{job.job_salary}</span>
                     </div>
                   )}
                   
@@ -452,7 +452,7 @@ function Home() {
                         fontWeight: "500",
                       }}
                     >
-                      {job.type || "Available"}
+                      {job.job_type || "Available"}
                     </span>
                     
                     <Link

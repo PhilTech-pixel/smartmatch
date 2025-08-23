@@ -62,6 +62,9 @@ export default function JobListings() {
         <Link to="/profile" className="profile-link">
           <button className="profile-button">Profile</button>
         </Link>
+         <Link to="/dashboard" className="profile-link">
+          <button className="profile-button">Check My Applications</button>
+        </Link>
         
         {filteredJobs.length > 0 && (
           <CSVLink 

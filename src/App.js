@@ -12,7 +12,7 @@ import Profile from "./pages/Profile";
 import Approved from "./pages/Approved";
 import Reviews from "./pages/Reviews";
 import JobsList from "./pages/JobsList";
-import NavBar from "./components/Navbar";
+import UserDashboard from "./pages/Pending";
 
 function App() {
   return (
@@ -27,6 +27,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/post-job" element={<PostJob />} />
+          <Route path="/dashboard" element={<UserDashboard />} />
           {/* <Route path="/application/:id" element={<Dashboard />} /> */}
           <Route path="/jobs" element={<JobListings />} />
           <Route path="/alljobs" element={<JobsList />} />

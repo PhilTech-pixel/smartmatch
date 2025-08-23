@@ -261,6 +261,29 @@ export default function PostJob() {
               >
                 View All Jobs
               </button>
+
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  navigate("/reviews");
+                }}
+                style={{
+                  padding: "1rem 1.5rem",
+                  background: "none",
+                  border: "none",
+                  textAlign: "left",
+                  color: "#1976d2",
+                  fontWeight: 600,
+                  fontSize: "1.05rem",
+                  cursor: "pointer",
+                  borderBottom: "none",
+                  transition: "background 0.2s",
+                }}
+                onMouseOver={e => e.currentTarget.style.background = "#f1f5fb"}
+                onMouseOut={e => e.currentTarget.style.background = "none"}
+              >
+                Reviews
+              </button>
             </div>
           )}
         </div>

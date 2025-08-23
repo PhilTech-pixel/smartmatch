@@ -12,6 +12,7 @@ import Profile from "./pages/Profile";
 import Approved from "./pages/Approved";
 import Reviews from "./pages/Reviews";
 import JobsList from "./pages/JobsList";
+import NavBar from "./components/Navbar";
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
       </div>
 
       <Router>
+        <NavBar />
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

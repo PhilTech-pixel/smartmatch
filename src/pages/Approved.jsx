@@ -46,13 +46,14 @@ export default function Approved() {
       const application = approvedApplications.find(app => app.id === applicationId);
       
       await addDoc(collection(db, "Reviews"), {
-        clientId: auth.currentUser?.uid,
-        comment: review.comment,
-        rating: parseFloat(review.rating),
-        workerId: application.Application_User_Id,
-        jobId: application.Application_Job_Id,
-        jobTitle: application.Application_Job_Title,
-        createdAt: new Date()
+        Review_ClientId: auth.currentUser?.uid,
+        Review_Comment: review.comment,
+        Review_Rating: parseFloat(review.rating),
+        Review_WorkerId: application.Application_User_Id,
+        Review_WorkerName: application.Application_User_Name, // Added applicant name
+        Review_JobId: application.Application_Job_Id,
+        Review_JobTitle: application.Application_Job_Title,
+        Review_CreatedAt: new Date()
       });
       
       setReviews(prev => ({ 
@@ -139,7 +140,7 @@ export default function Approved() {
 
                     {activeReviewForm === app.id && (
                       <div className="review-form">
-                        <h4>Leave a Review</h4>
+                        <h4>Leave a Review for {app.Application_User_Name}</h4>
                         
                         <div className="form-group">
                           <label>Rating (1-5)</label>
@@ -161,7 +162,7 @@ export default function Approved() {
                           <textarea
                             value={reviews[app.id]?.comment || ""}
                             onChange={(e) => handleReviewChange(app.id, "comment", e.target.value)}
-                            placeholder="Share your experience working with this professional..."
+                            placeholder={`Share your experience working with ${app.Application_User_Name}...`}
                           />
                         </div>
 
